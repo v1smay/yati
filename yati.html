@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To Captain Yati ✈️💖</title>
+    <style>
+        body {
+            background: #0a1128;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .flight-panel {
+            background: rgba(0,0,0,0.7);
+            border: 3px solid #ff69b4;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem;
+            max-width: 600px;
+        }
+        .btn {
+            background: #ff1493;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+            background: #ff0066;
+        }
+        .sky-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hidden { display: none; }
+        .flight-path {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Phase 1: Flight Check -->
+        <div class="flight-panel" id="phase1">
+            <h1>✈️ Flight YATI-520 ✈️</h1>
+            <p>Departure: My Heart → Destination: Forever</p>
+            <button class="btn" onclick="startFlight()">Begin Pre-Flight Check</button>
+            <p style="margin-top:20px;font-size:0.8em;color:#ff69b4">
+                Hint: Follow the stardust particles ✨
+            </p>
+        </div>
+
+        <!-- Phase 2: Navigation Challenge -->
+        <div class="flight-panel hidden" id="phase2">
+            <h2>🛩️ Navigation Challenge</h2>
+            <p>Enter our secret coordinates:</p>
+            <input type="text" id="coordinates" placeholder="MM/DD/YYYY" 
+                   style="padding:10px; font-size:1.2rem; text-align:center">
+            <button class="btn" onclick="checkCoordinates()">Lock In</button>
+            <button class="btn" onclick="autoFillDate()">Autofill Date</button>
+            <div id="hint2" class="hidden" style="color:#00ffff;margin-top:15px">
+                Think: When did we first fly together? 🗓️
+            </div>
+        </div>
+
+        <!-- Phase 3: Final Approach -->
+        <div class="flight-panel hidden" id="phase3">
+            <h2>🌈 Final Approach</h2>
+            <div id="altitude" style="font-size:2rem;margin:20px">FL360</div>
+            <button class="btn" id="landingBtn" onmouseover="dodgeCloud()" onclick="landLove()">
+                Initiate Landing Sequence
+            </button>
+            <p style="color:#ff69b4;margin-top:20px">
+                Quick! Move your mouse or tilt your phone to avoid storm clouds! ⛈️
+            </p>
+        </div>
+
+        <!-- Phase 4: Landing -->
+        <div class="flight-panel hidden" id="phase4">
+            <h1>✈️ TOUCHDOWN! ✨</h1>
+            <p>You've successfully landed in Forever</p>
+            <div id="finalMessage" style="font-size:1.5rem;margin:20px"></div>
+            <button class="btn" onclick="showSecret()">Open Black Box</button>
+        </div>
+    </div>
+
+    <!-- Flight Path Animation -->
+    <div class="flight-path" id="flightPath"></div>
+
+    <script>
+        // Optimize Stardust for PC only
+        if (window.innerWidth > 600) { 
+            setInterval(() => {
+                const star = document.createElement('div');
+                star.className = 'sky-particle';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 3000);
+            }, 100);
+        }
+
+        function startFlight() {
+            document.getElementById('phase1').classList.add('hidden');
+            document.getElementById('phase2').classList.remove('hidden');
+            document.getElementById('hint2').classList.remove('hidden');
+        }
+
+        function checkCoordinates() {
+            const input = document.getElementById('coordinates').value;
+            if (input === '01/08/2025') {
+                document.getElementById('phase2').classList.add('hidden');
+                document.getElementById('phase3').classList.remove('hidden');
+                startCloudDodge();
+            }
+        }
+
+        function autoFillDate() {
+            document.getElementById('coordinates').value = '01/08/2025';
+            checkCoordinates();
+        }
+
+        function startCloudDodge() {
+            // Tilt phone to change altitude
+            window.addEventListener("deviceorientation", function(event) {
+                if (Math.abs(event.gamma) > 15) {
+                    document.getElementById("altitude").innerText = "FL180 (Descending Smoothly)";
+                }
+            });
+        }
+
+        function landLove() {
+            document.getElementById('phase3').classList.add('hidden');
+            const final = document.getElementById('phase4');
+            final.classList.remove('hidden');
+            final.querySelector('#finalMessage').innerHTML = `
+                <p>Captain's Log: ${new Date().toLocaleDateString()}</p>
+                <p>Status: Hopelessly in love with Yati</p>
+                <p>Fuel Remaining: ∞</p>
+            `;
+        }
+
+        function showSecret() {
+            alert("BLACK BOX RECORDING:\n'Yati makes every flight my favorite journey. Love you to the stratosphere and back!' ✈️💖");
+        }
+
+        // Easter Egg: Long-Press for Mobile, Right-Click for PC
+        let pressTimer;
+        document.addEventListener("touchstart", function () {
+            pressTimer = setTimeout(() => {
+                alert("✈️ Secret Menu: You're cleared for direct approach to my heart! ❤️");
+            }, 2000);
+        });
+        document.addEventListener("touchend", function () {
+            clearTimeout(pressTimer);
+        });
+
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            alert("✈️ Secret Menu: You're cleared for direct approach to my heart! ❤️");
+        });
+    </script>
+</body>
+</html>
+
